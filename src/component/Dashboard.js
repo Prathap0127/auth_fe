@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { Button } from 'bootstrap';
+import Button from 'react-bootstrap/Button';
 import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from 'react-router-dom';
+import { url } from '../App';
 
 function Dashboard() {
   let token = sessionStorage.getItem('token')
@@ -10,7 +11,7 @@ function Dashboard() {
   let navigate = useNavigate()
   let getData = async () => {
     try {
-      let res = await axios.get('http://localhost:8000/users/all',{
+      let res = await axios.get(`${url}/users/all`,{
        headers:{Authorization:`Bearer ${token}`}
       })
       if(res.status===200){
@@ -34,6 +35,7 @@ function Dashboard() {
 
     }
     else {
+      navigate('/login')
 
     }
   }
@@ -57,7 +59,7 @@ function Dashboard() {
       <tbody>
         {
           data.map((e, i) => {
-            return <tr keu={i}>
+            return <tr key={i}>
               <td>{i+1}</td>
               <td>{e.firstName}</td>
               <td>{e.lastName}</td>
@@ -73,6 +75,15 @@ function Dashboard() {
 
       </tbody>
     </Table>
+    <Button variant="primary" onClick={() => getData()}>
+          Refresh
+        </Button>
+        <Button variant="danger" onClick={() =>{
+          sessionStorage.clear()
+          navigate('/login')
+        }}>
+          Logout 
+        </Button>
 
 
   </div>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { url } from '../App';
 
 function Login() {
   let [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ function Login() {
 
   let handleLogin = async () => {
     try{
-      let res = await axios.post('http://localhost:8000/users/login', {
+      let res = await axios.post(`${url}/users/login`, {
         email,
         password
       })
